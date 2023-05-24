@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
 
+
+
 conn = st.session_state["conn"]
 today = st.session_state['today'] 
 time_id = st.session_state["time_id"]
@@ -71,7 +73,7 @@ if st.session_state["authentication_status"]:
 
     query_graph = f"SELECT start_time,total_hours, first_8_hours, after_8_hours  FROM working_hours WHERE employer_id = '{employer_id}' AND start_time >= '{start_month}' group by Date(start_time);"
     data_query = customize_query(conn,query_graph)
-    data = pd.DataFrame(data_query,dtype=float)
+    data = pd.DataFrame(data_query)
     
     st.write(f"### Today stats")
     st.write(f"{today.strftime('%A, %B %d, %Y')}")

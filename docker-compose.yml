@@ -2,18 +2,18 @@ version: "3.7"
 
 services:
   streamlit:
-    build:
-    container_name: my_streamlit_app
+    image: jimcz/time_streamlit
+    container_name: app
     restart: always
     environment:
       DB_HOST: mariadb
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
-    ports:
-      - "8501:8501"
     networks:
       - internal
+    depends_on:
+      - mariadb
 
   mariadb:
     image: mariadb
@@ -24,12 +24,18 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
     volumes:
       - my_mariadb:/var/lib/mysql
+      - ./Schema.sql:/docker-entrypoint-initdb.d/database.sql
     networks:
       - internal
+    depends_on:
+      - caddy
 
-caddy:
+
+  caddy:
     image: caddy
     container_name: caddy
     restart: always
@@ -43,10 +49,8 @@ caddy:
       - ./Caddyfile:/etc/caddy/Caddyfile
 
 networks:
-  private:
+  internal:
   public:
 
 volumes:
-  db-data:
-
-
+  my_mariadb:

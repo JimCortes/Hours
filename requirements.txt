@@ -1,0 +1,7 @@
+streamlit
+datetime
+mysql-connector-python
+streamlit-authenticator
+bcrypt
+python-dotenv
+plotly

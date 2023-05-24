@@ -2,6 +2,8 @@ import streamlit as st
 
 from functions import get_values, customize_query, insert_into_table
 
+
+
 conn = st.session_state["conn"]
 today = st.session_state['today'] 
 authenticator = st.session_state["authenticator"]
@@ -19,6 +21,8 @@ if st.session_state["authentication_status"]:
         tip = st.number_input('Tip', format="%.2f", min_value=0.00, max_value=1000.00, step=0.01)
         job_description = st.text_input("Coments", max_chars=255)
         submit_button = st.form_submit_button(label="Submit")
+        net_tip = tip / employees if employees != 0 else 0
+
 
     if submit_button:
         query_id =  f"select employer_id from employer where employer_name = '{employer_name}'"
@@ -31,6 +35,7 @@ if st.session_state["authentication_status"]:
             if end_date is None:
                 insert_into_table(conn,"jobs",["employer_id", "day_id", "job_number", "employees", "tip", "job_description"],
                                         [employer_id, times_id,job_number, employees,tip,job_description])
+                st.success(f"Job {job_number} added tip {tip} for you {net_tip}") 
             else:
                 st.error(f"You finished your turn, Nothing added", icon="🚨")       
         

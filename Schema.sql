@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS time_tracker
+CREATE SCHEMA IF NOT EXISTS time_tracker;
 
 CREATE TABLE IF NOT EXISTS time_tracker.employer (
     employer_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -37,16 +37,19 @@ CREATE TABLE IF NOT EXISTS time_tracker.jobs (
 );
 
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS time_tracker.users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_name VARCHAR(50) NOT NULL,
   user VARCHAR(50) UNIQUE NOT NULL,
-  salt VARCHAR(255) NOT NULL,
   password_hash VARCHAR(255) NOT NULL
 );
-   
 
-CREATE VIEW working_hours AS
+INSERT INTO users (user_name, user, password_hash)
+VALUES ('Jimmy','Jim','$2b$12$YOEhpd7xrFqdVmthXCk5sOHTKs0Gq8T63FGN9MLPGbeksp3AK4/P.');
+
+
+
+CREATE VIEW time_tracker.working_hours AS
 SELECT 
     employer_id, 
     start_time, 

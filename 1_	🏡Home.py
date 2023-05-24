@@ -7,12 +7,13 @@ from functions import insert_into_table, display_time, get_values, customize_que
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
-db_user = os.getenv('db_user')
-db_password = os.getenv('db_password')
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('db_host')
-database = os.getenv('database')
+database = os.getenv('DB_NAME')
 
 
 
